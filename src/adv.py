@@ -1,5 +1,5 @@
 from room import Room
-
+from player import Player
 # Declare all the rooms
 
 room = {
@@ -36,15 +36,27 @@ room['treasure'].s_to = room['narrow']
 #
 # Main
 #
-
 # Make a new player object that is currently in the 'outside' room.
 
+
+def play(name):
+    print("You are currently", player.current_room)
+    print(room[player.current_room].description)
+    location = input("Where would you like to go next?")
+    # player.move(location)
+
+
+name = input("What is your name?")
+
+player = Player(name)
+print("Welcome to the Python Treasure game,", player.name)
+play(name)
 # Write a loop that:
 #
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
-#
+
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
 #
