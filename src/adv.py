@@ -5,7 +5,6 @@ from player import Player
 room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons"),
-
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
 
@@ -40,17 +39,33 @@ room['treasure'].s_to = room['narrow']
 
 
 def play(name):
-    print("You are currently", player.current_room)
-    print(room[player.current_room].description)
+    global player_location
+    print("You are currently at the", player_location)
+    print(player_location.description)
     location = input("Where would you like to go next?")
-    # player.move(location)
+    if location == "n":
+        player_location = player_location.n_to
+
+    elif location == "s":
+        player_location = player_location.s_to
+
+    elif location == "e":
+        player_location = player_location.e_to
+
+    elif location == "w":
+        player_location = player_location.w_to
+
+    elif location == "q":
+        quit()
 
 
 name = input("What is your name?")
-
 player = Player(name)
+player_location = room['outside']
+playing = True
 print("Welcome to the Python Treasure game,", player.name)
-play(name)
+while playing:
+    play(name)
 # Write a loop that:
 #
 # * Prints the current room name
