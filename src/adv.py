@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 # Declare all the rooms
 
 room = {
@@ -32,40 +33,67 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# Initialize items
+goldfish = Item("Goldfish", "A cute goldfish in a bowl")
+torch = Item("Torch", "A useful item to light the darkness")
+room['outside'].add_item(goldfish)
+room['outside'].add_item(torch)
+# room['outside'].get_items()
+
 #
 # Main
 #
 # Make a new player object that is currently in the 'outside' room.
 
+# Main Function
+
 
 def play(name):
-    global player_location
-    print("You are currently at the", player_location)
-    print(player_location.description)
-    location = input("Where would you like to go next?")
-    if location == "n":
-        player_location = player_location.n_to
-
-    elif location == "s":
-        player_location = player_location.s_to
-
-    elif location == "e":
-        player_location = player_location.e_to
-
-    elif location == "w":
-        player_location = player_location.w_to
-
-    elif location == "q":
+    global player
+    if player.current_room == None:
+        print("Oh no, you fell off the map. You can't go that way!")
         quit()
+    else:
+        print("You are currently at the", player.current_room)
+        print(player.current_room.description)
+        look_around = input("Take a closer look around you? y,n")
+        if look_around == "y":
+            print("You found these items lying around:")
+            room['outside'].get_items()
+
+        item_actions = input(
+            "Do anything with the items?: ex take sword").split()
+        if len(item_actions) == 2 and item_actions[0] == "take":
+            player.add_item(item_actions[1])
+        print("item actions", item_actions)
+        location = input("Where would you like to go next?")
+        if location == "n":
+            player.current_room = player.current_room.n_to
+
+        elif location == "s":
+            player.current_room = player.current_room.s_to
+
+        elif location == "e":
+            player.current_room = player.current_room.e_to
+
+        elif location == "w":
+            player.current_room = player.current_room.w_to
+
+        elif location == "q":
+            quit()
 
 
+# Game
 name = input("What is your name?")
 player = Player(name)
-player_location = room['outside']
+player.current_room = room['outside']
 playing = True
 print("Welcome to the Python Treasure game,", player.name)
+
 while playing:
     play(name)
+
+
 # Write a loop that:
 #
 # * Prints the current room name

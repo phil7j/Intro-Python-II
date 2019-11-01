@@ -5,8 +5,9 @@
 class Player:
     def __init__(self, name):  # equivalent to JS constructor
         self.name = name
-        # self.current_room = current_room
+        self.current_room = None
+        self.items = []
 
-    # def __str__(self):
-    #     s = f"Player: {self.name}\n"
-    #     return s
+    def add_item(self, item):
+        self.items.append(item)
+        print(f"You put the {item} in your backpack!")
